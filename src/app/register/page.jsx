@@ -3,37 +3,71 @@
 import { useState, useContext } from "react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
-import { toast } from "react-toastify";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
+import { toast } from "react-toastify";
 // import { AuthContext } from "../contexts/AuthContext/AuthContext";
 
-const loginPage = () => {
-  // const { signInUser, signInWithGoogle } = useContext(AuthContext);
+const registerPage = () => {
+  // const { createUser, signInWithGoogle } = useContext(AuthContext);
   const router = useRouter();
   const searchParams = useSearchParams();
   const from = searchParams.get("from") || "/";
 
+  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
+  const [photoURL, setPhotoURL] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
+
+  const validatePassword = (password) => {
+    if (password.length < 6) return "Password must be at least 6 characters";
+    if (!/[A-Z]/.test(password))
+      return "Password must include an uppercase letter";
+    if (!/[a-z]/.test(password))
+      return "Password must include a lowercase letter";
+    return null;
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
 
-    if (!email || !password) {
-      toast.error("Please fill in all fields");
+    if (!name || !email || !password) {
+      toast.error("Please fill in all required fields");
+      setLoading(false);
+      return;
+    }
+
+    const passwordError = validatePassword(password);
+    if (passwordError) {
+      toast.error(passwordError);
       setLoading(false);
       return;
     }
 
     try {
-      await signInUser(email, password);
-      toast.success("Login successful!");
+      await createUser(email, password);
+
+      const newUser = {
+        name,
+        email,
+        image: photoURL || null,
+      };
+
+      const res = await fetch("https://eximflow-api-server.vercel.app/users", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(newUser),
+      });
+
+      const data = await res.json();
+      console.log("Form user saved:", data);
+
+      toast.success("Registration successful!");
       router.replace(from);
     } catch (err) {
-      toast.error(err.message || "Login failed");
+      toast.error(err.message || "Registration failed");
     } finally {
       setLoading(false);
     }
@@ -42,6 +76,7 @@ const loginPage = () => {
   const handleGoogleLogin = async () => {
     try {
       const result = await signInWithGoogle();
+
       const newUser = {
         name: result.user.displayName,
         email: result.user.email,
@@ -53,6 +88,7 @@ const loginPage = () => {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(newUser),
       });
+
       const data = await res.json();
       console.log("User saved:", data);
 
@@ -68,10 +104,24 @@ const loginPage = () => {
     <div className="md:min-h-screen flex items-center justify-center bg-gray-50 py-4 md:py-10 px-4 md:px-0">
       <div className="card w-full max-w-md md:shadow-2xl bg-base-100 p-8 rounded-xl">
         <h2 className="text-3xl font-bold text-center text-blue-600 mb-6">
-          Login Please!
+          Register Please!
         </h2>
 
         <form onSubmit={handleSubmit} className="space-y-5">
+          <div className="relative">
+            <label className="label">
+              <span className="label-text font-medium">Name</span>
+            </label>
+            <input
+              type="text"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              placeholder="Enter your name"
+              className="input input-bordered w-full focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-blue-600"
+              required
+            />
+          </div>
+
           <div className="relative">
             <label className="label">
               <span className="label-text font-medium">Email</span>
@@ -81,8 +131,21 @@ const loginPage = () => {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               placeholder="Enter your email"
-              className="input input-bordered w-full pr-12 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-blue-600"
+              className="input input-bordered w-full focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-blue-600"
               required
+            />
+          </div>
+
+          <div className="relative">
+            <label className="label">
+              <span className="label-text font-medium">Photo URL</span>
+            </label>
+            <input
+              type="text"
+              value={photoURL}
+              onChange={(e) => setPhotoURL(e.target.value)}
+              placeholder="Enter photo URL (optional)"
+              className="input input-bordered w-full focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-blue-600"
             />
           </div>
 
@@ -90,7 +153,6 @@ const loginPage = () => {
             <label className="label">
               <span className="label-text font-medium">Password</span>
             </label>
-
             <div className="relative">
               <input
                 type={showPassword ? "text" : "password"}
@@ -100,7 +162,6 @@ const loginPage = () => {
                 className="input input-bordered w-full pr-12 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-blue-600"
                 required
               />
-
               <button
                 type="button"
                 onClick={() => setShowPassword(!showPassword)}
@@ -114,7 +175,7 @@ const loginPage = () => {
           <button
             type="submit"
             disabled={loading}
-            className={`btn w-full flex items-center justify-center gap-2 text-base font-semibold duration-300 hover:bg-blue-700 transition-colors ${
+            className={`btn w-full flex items-center justify-center gap-2 text-base font-semibold transition-all duration-300 ${
               loading
                 ? "bg-blue-600/90 text-white cursor-not-allowed"
                 : "btn bg-blue-600 text-white"
@@ -123,11 +184,12 @@ const loginPage = () => {
             {loading && (
               <span className="loading loading-spinner loading-sm text-white"></span>
             )}
-            {loading ? "Logging in..." : "Login"}
+            {loading ? "Registering..." : "Register"}
           </button>
         </form>
 
         <div className="divider my-4">OR</div>
+
         <button
           onClick={handleGoogleLogin}
           className="btn bg-white text-black border-[#e5e5e5]"
@@ -159,16 +221,16 @@ const loginPage = () => {
               ></path>
             </g>
           </svg>
-          Login with Google
+          Sign up with Google
         </button>
 
         <p className="text-center mt-5 text-sm">
-          Do not have an account?{" "}
+          Already have an account?{" "}
           <Link
-            href="/register"
+            href="/login"
             className="text-blue-600 font-semibold hover:underline"
           >
-            Register
+            Login
           </Link>
         </p>
       </div>
@@ -176,4 +238,4 @@ const loginPage = () => {
   );
 };
 
-export default loginPage;
+export default registerPage;
