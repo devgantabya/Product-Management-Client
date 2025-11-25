@@ -3,7 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 
-const About = () => {
+export default function About() {
   return (
     <div className="min-h-screen bg-gray-50 py-10 px-4 md:px-20">
       <div className="max-w-6xl mx-auto bg-white rounded-xl shadow-lg overflow-hidden">
@@ -66,6 +66,4 @@ const About = () => {
       </div>
     </div>
   );
-};
-
-export default About;
+}

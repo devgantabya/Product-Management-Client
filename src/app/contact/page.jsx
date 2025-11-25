@@ -4,7 +4,7 @@ import { useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-const ContactPage = () => {
+export default function ContactPage() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
@@ -101,6 +101,4 @@ const ContactPage = () => {
       <ToastContainer position="top-right" autoClose={3000} />
     </div>
   );
-};
-
-export default ContactPage;
+}

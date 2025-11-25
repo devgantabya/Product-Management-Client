@@ -8,7 +8,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 // import { AuthContext } from "../contexts/AuthContext/AuthContext";
 
-const registerPage = () => {
+export default function RegisterPage() {
   // const { createUser, signInWithGoogle } = useContext(AuthContext);
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -238,6 +238,4 @@ const registerPage = () => {
       <ToastContainer position="top-right" autoClose={3000} />
     </div>
   );
-};
-
-export default registerPage;
+}

@@ -8,7 +8,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 // import { AuthContext } from "../contexts/AuthContext/AuthContext";
 
-const loginPage = () => {
+export default function LoginPage() {
   // const { signInUser, signInWithGoogle } = useContext(AuthContext);
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -176,6 +176,4 @@ const loginPage = () => {
       <ToastContainer position="top-right" autoClose={3000} />
     </div>
   );
-};
-
-export default loginPage;
+}

@@ -31,7 +31,7 @@ const ProductsPage = async () => {
                 fill
                 className="object-contain rounded-lg"
               />
-              <p className="text-white mt-1 text-sm absolute top-2 right-3 capitalize bg-blue-600 px-2 rounded">
+              <p className="text-white mt-1 text-sm absolute top-2 right-3 capitalize bg-gray-600 px-2 rounded">
                 {product.condition}
               </p>
             </div>
@@ -43,11 +43,10 @@ const ProductsPage = async () => {
                 <span className="text-gray-500">{product.location}</span>
               </div>
 
-              <Link
-                href={`/products/${product._id}`}
-                className="mt-3 text-blue-600 bg-blue-600 w-full text-white btn"
-              >
-                Details
+              <Link href={`/products/${product._id}`}>
+                <button className="mt-3 w-full text-white bg-blue-600 btn">
+                  Details
+                </button>
               </Link>
             </div>
           </div>
