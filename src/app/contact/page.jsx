@@ -1,7 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import { toast } from "react-toastify";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const ContactPage = () => {
   const [name, setName] = useState("");
@@ -20,7 +21,7 @@ const ContactPage = () => {
     }
 
     try {
-      const res = await fetch("/api/contact", {
+      const res = await fetch("http://localhost:5000/contact", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ name, email, message }),
@@ -97,6 +98,7 @@ const ContactPage = () => {
           </button>
         </form>
       </div>
+      <ToastContainer position="top-right" autoClose={3000} />
     </div>
   );
 };

@@ -4,7 +4,8 @@ import { useState, useContext } from "react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
-import { toast } from "react-toastify";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 // import { AuthContext } from "../contexts/AuthContext/AuthContext";
 
 const registerPage = () => {
@@ -234,6 +235,7 @@ const registerPage = () => {
           </Link>
         </p>
       </div>
+      <ToastContainer position="top-right" autoClose={3000} />
     </div>
   );
 };

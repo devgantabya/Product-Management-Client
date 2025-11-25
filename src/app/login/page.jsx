@@ -3,7 +3,8 @@
 import { useState, useContext } from "react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
-import { toast } from "react-toastify";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 // import { AuthContext } from "../contexts/AuthContext/AuthContext";
 
@@ -172,6 +173,7 @@ const loginPage = () => {
           </Link>
         </p>
       </div>
+      <ToastContainer position="top-right" autoClose={3000} />
     </div>
   );
 };
