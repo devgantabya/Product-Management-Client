@@ -1,6 +1,6 @@
 "use client";
 
-import { useContext, useEffect, useState, useRef } from "react";
+import { useCallback, useContext, useEffect, useState, useRef } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { toast } from "react-toastify";
@@ -18,7 +18,7 @@ export default function MyProducts() {
     window.scrollTo(0, 0);
   }, []);
 
-  const fetchMyProducts = async () => {
+  const fetchMyProducts = useCallback(async () => {
     if (!user?.email) return;
 
     setLoading(true);
@@ -36,11 +36,11 @@ export default function MyProducts() {
     } finally {
       setLoading(false);
     }
-  };
+  }, [user?.email, user?.accessToken]);
 
   useEffect(() => {
     fetchMyProducts();
-  }, [user?.email]);
+  }, [fetchMyProducts]);
 
   const handleDelete = async (id) => {
     if (!confirm("Are you sure you want to delete this?")) return;
@@ -67,6 +67,7 @@ export default function MyProducts() {
 
   const handleUpdate = async (e) => {
     e.preventDefault();
+
     setLoading(true);
     const form = e.target;
 
@@ -90,25 +91,30 @@ export default function MyProducts() {
         `http://localhost:5000/my-products/${selectedProduct._id}`,
         {
           method: "PATCH",
-          headers: { "Content-Type": "application/json" },
+          headers: {
+            "Content-Type": "application/json",
+            authorization: `Bearer ${user.accessToken}`,
+          },
           body: JSON.stringify(updated),
         }
       );
+
       const data = await res.json();
 
-      if (data.modifiedCount > 0) {
+      if (data.success) {
         toast.success("Product updated successfully");
+
         setMyProductsList((prev) =>
           prev.map((p) =>
             p._id === selectedProduct._id ? { ...p, ...updated } : p
           )
         );
+
         modalRef.current.close();
       } else {
         toast.info("No changes detected");
       }
     } catch (err) {
-      toast.error("Update failed");
     } finally {
       setLoading(false);
     }
