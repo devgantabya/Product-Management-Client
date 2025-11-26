@@ -6,15 +6,15 @@ const Footer = () => {
   return (
     <footer className="bg-gray-900 text-gray-300 pt-16 pb-8">
       <div className="max-w-7xl mx-auto px-6 grid md:grid-cols-4 gap-10">
-        <div>
-          <h3 className="text-xl font-semibold text-white mb-4">ItemFlow</h3>
+        <div className="text-center md:text-left">
+          <h3 className="text-2xl font-semibold text-white mb-4">ItemFlow</h3>
           <p className="text-gray-400 text-sm leading-relaxed">
             Building modern, reliable, and scalable web solutions for growing
             businesses.
           </p>
         </div>
 
-        <div>
+        <div className="text-center md:text-left">
           <h3 className="text-xl font-semibold text-white mb-4">Quick Links</h3>
           <ul className="space-y-3 text-sm">
             <li>
@@ -52,7 +52,7 @@ const Footer = () => {
           </ul>
         </div>
 
-        <div>
+        <div className="text-center md:text-left">
           <h3 className="text-xl font-semibold text-white mb-4">Support</h3>
           <ul className="space-y-3 text-sm">
             <li>
@@ -90,9 +90,9 @@ const Footer = () => {
           </ul>
         </div>
 
-        <div>
+        <div className="text-center md:text-left">
           <h3 className="text-xl font-semibold text-white mb-4">Follow Us</h3>
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-4 justify-center md:justify-start">
             <a
               href="https://www.facebook.com/devgantabya"
               className="p-2 rounded-full bg-gray-800 hover:bg-gray-700 transition-all"
