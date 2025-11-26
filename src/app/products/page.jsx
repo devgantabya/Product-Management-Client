@@ -22,7 +22,7 @@ const ProductsPage = async () => {
         {products.map((product) => (
           <div
             key={product._id}
-            className="border rounded-lg hover:shadow-xl transition"
+            className="border rounded-lg hover:shadow-lg transition"
           >
             <div className="w-full h-48 relative mb-4 ">
               <Image

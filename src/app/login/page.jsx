@@ -3,13 +3,12 @@
 import { useState, useContext } from "react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import { toast } from "react-toastify";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
-// import { AuthContext } from "../contexts/AuthContext/AuthContext";
+import { AuthContext } from "@/contexts/AuthContaxt";
 
 export default function LoginPage() {
-  // const { signInUser, signInWithGoogle } = useContext(AuthContext);
+  const { signInUser, signInWithGoogle } = useContext(AuthContext);
   const router = useRouter();
   const searchParams = useSearchParams();
   const from = searchParams.get("from") || "/";
@@ -49,7 +48,7 @@ export default function LoginPage() {
         image: result.user.photoURL,
       };
 
-      const res = await fetch("https://eximflow-api-server.vercel.app/users", {
+      const res = await fetch("http://localhost:5000/users", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(newUser),
@@ -173,7 +172,6 @@ export default function LoginPage() {
           </Link>
         </p>
       </div>
-      <ToastContainer position="top-right" autoClose={3000} />
     </div>
   );
 }

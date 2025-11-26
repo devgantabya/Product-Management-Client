@@ -1,3 +1,4 @@
+import BackButton from "@/components/BackButton";
 import Image from "next/image";
 import React from "react";
 
@@ -23,7 +24,9 @@ const ProductDetails = async ({ params }) => {
   }
 
   return (
-    <div className="max-w-7xl mx-auto px-4 py-10">
+    <div className="max-w-7xl mx-auto px-4 py-10 ">
+      <BackButton />
+
       <div className="grid md:grid-cols-2 gap-10">
         <div className="relative w-full h-[400px] md:h-[500px]">
           <Image
@@ -42,7 +45,6 @@ const ProductDetails = async ({ params }) => {
           <p className="text-xl font-semibold text-gray-800">
             ৳{product.price}
           </p>
-
           <p className="text-gray-600">
             <span className="font-semibold">Condition:</span>{" "}
             {product.condition}
@@ -53,7 +55,6 @@ const ProductDetails = async ({ params }) => {
           <p className="text-gray-600">
             <span className="font-semibold">Location:</span> {product.location}
           </p>
-
           <hr className="my-4" />
           <div className="flex items-center space-x-4">
             <div className="relative w-16 h-16">
@@ -72,9 +73,7 @@ const ProductDetails = async ({ params }) => {
               <p className="text-gray-500 text-sm">Email: {product.email}</p>
             </div>
           </div>
-
           <hr className="my-4" />
-
           {/* Description */}
           <div>
             <h2 className="text-xl font-semibold text-gray-800 mb-2">
