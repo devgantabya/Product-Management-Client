@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, useContext } from "react";
+import { useEffectEvent } from "react";
 import { AuthContext } from "@/contexts/AuthContaxt";
 
 export default function AddProductPage() {
@@ -21,8 +22,14 @@ export default function AddProductPage() {
     email: "",
   });
 
+  const updateEmail = useEffectEvent((email) => {
+    setForm((prev) => ({ ...prev, email }));
+  });
+
   useEffect(() => {
-    if (user?.email) setForm((prev) => ({ ...prev, email: user.email }));
+    if (user?.email) {
+      updateEmail(user.email);
+    }
   }, [user?.email]);
 
   const handleChange = (e) => {
@@ -32,11 +39,14 @@ export default function AddProductPage() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const res = await fetch("http://localhost:5000/products", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(form),
-    });
+    const res = await fetch(
+      "https://product-management-server-nine.vercel.app/products",
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(form),
+      }
+    );
 
     if (res.ok) {
       alert("Product added successfully!");

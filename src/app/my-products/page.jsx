@@ -24,7 +24,7 @@ export default function MyProducts() {
     setLoading(true);
     try {
       const res = await fetch(
-        `http://localhost:5000/my-products?email=${user.email}`,
+        `https://product-management-server-nine.vercel.app/my-products?email=${user.email}`,
         {
           headers: { authorization: `Bearer ${user.accessToken}` },
         }
@@ -46,9 +46,12 @@ export default function MyProducts() {
     if (!confirm("Are you sure you want to delete this?")) return;
 
     try {
-      const res = await fetch(`http://localhost:5000/my-products/${id}`, {
-        method: "DELETE",
-      });
+      const res = await fetch(
+        `https://product-management-server-nine.vercel.app/my-products/${id}`,
+        {
+          method: "DELETE",
+        }
+      );
       const data = await res.json();
 
       if (data.deletedCount > 0) {
@@ -88,7 +91,7 @@ export default function MyProducts() {
 
     try {
       const res = await fetch(
-        `http://localhost:5000/my-products/${selectedProduct._id}`,
+        `https://product-management-server-nine.vercel.app/my-products/${selectedProduct._id}`,
         {
           method: "PATCH",
           headers: {

@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef, useContext } from "react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 import Image from "next/image";
 import { AuthContext } from "@/contexts/AuthContaxt";
 
@@ -12,6 +12,7 @@ const Navbar = () => {
 
   const { user, signOutUser } = useContext(AuthContext);
   const router = useRouter();
+  const pathname = usePathname();
 
   const menuRef = useRef();
   const dropdownRef = useRef();
@@ -35,40 +36,32 @@ const Navbar = () => {
     router.push("/login");
   };
 
+  const getLinkClass = (href) => {
+    const base = "px-3 py-2 font-medium transition-colors";
+    const active = "text-blue-600 font-semibold";
+    const inactive = "hover:text-blue-600";
+    return pathname === href ? `${base} ${active}` : `${base} ${inactive}`;
+  };
+
   const links = (
     <>
       <li onClick={() => setMenuOpen(false)}>
-        <Link
-          href="/"
-          className="px-3 py-2 font-medium hover:text-blue-600 transition-colors"
-        >
+        <Link href="/" className={getLinkClass("/")}>
           Home
         </Link>
       </li>
-
       <li onClick={() => setMenuOpen(false)}>
-        <Link
-          href="/products"
-          className="px-3 py-2 font-medium hover:text-blue-600 transition-colors"
-        >
+        <Link href="/products" className={getLinkClass("/products")}>
           Products
         </Link>
       </li>
-
       <li onClick={() => setMenuOpen(false)}>
-        <Link
-          href="/about"
-          className="px-3 py-2 font-medium hover:text-blue-600 transition-colors"
-        >
+        <Link href="/about" className={getLinkClass("/about")}>
           About
         </Link>
       </li>
-
       <li onClick={() => setMenuOpen(false)}>
-        <Link
-          href="/contact"
-          className="px-3 py-2 font-medium hover:text-blue-600 transition-colors"
-        >
+        <Link href="/contact" className={getLinkClass("/contact")}>
           Contact
         </Link>
       </li>

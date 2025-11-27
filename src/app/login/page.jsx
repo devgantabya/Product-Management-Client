@@ -48,11 +48,14 @@ export default function LoginPage() {
         image: result.user.photoURL,
       };
 
-      const res = await fetch("http://localhost:5000/users", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(newUser),
-      });
+      const res = await fetch(
+        "https://product-management-server-nine.vercel.app/users",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(newUser),
+        }
+      );
       const data = await res.json();
       console.log("User saved:", data);
 

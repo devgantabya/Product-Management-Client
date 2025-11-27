@@ -7,9 +7,12 @@ const ProductDetails = async ({ params }) => {
 
   let product;
   try {
-    const res = await fetch(`http://localhost:5000/products/${id}`, {
-      cache: "no-store",
-    });
+    const res = await fetch(
+      `https://product-management-server-nine.vercel.app/products/${id}`,
+      {
+        cache: "no-store",
+      }
+    );
 
     if (!res.ok) throw new Error("Product not found");
 
